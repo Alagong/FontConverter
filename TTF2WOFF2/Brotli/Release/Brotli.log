@@ -1,0 +1,38 @@
+﻿  dictionary.c
+  transform.c
+  bit_reader.c
+  decode.c
+  huffman.c
+  state.c
+  backward_references.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  backward_references_hq.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  bit_cost.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  block_splitter.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  brotli_bit_stream.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  cluster.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  compress_fragment.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  compress_fragment_two_pass.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  dictionary_hash.c
+  encode.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  encoder_dict.c
+  entropy_encode.c
+  histogram.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  literal_cost.c
+  Compiling...
+  memory.c
+  metablock.c
+e:\svn\26\experiment\sky\ttf2woff2\brotli\enc\command.h(148): warning C4018: '<': signed/unsigned mismatch
+  static_dict.c
+  utf8_util.c
+  decode_fuzzer.cc
+  Brotli.vcxproj -> E:\svn\26\experiment\sky\TTF2WOFF2\Release\Brotli.lib
