@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>OTS 校验：原始 vs 重新保存</title>
+<style>
+  body { font: 13px/1.6 -apple-system,"Segoe UI",sans-serif; margin: 20px; background: #0f1420; color: #dfe6f5; }
+  h1 { font-size: 16px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  th, td { border-bottom: 1px solid #263047; padding: 4px 8px; text-align: left; font-size: 12px; }
+  .ok { color: #4ade80; }
+  .bad { color: #f87171; }
+  #bar { margin-top: 10px; color: #93a4c4; }
+</style>
+</head>
+<body>
+<h1>浏览器 OTS 校验（FontFace 加载）</h1>
+<div id="bar">正在准备…</div>
+<table id="tbl"><thead><tr><th>字体</th><th>格式</th><th>原始</th><th>重新保存</th><th>原始错误</th><th>保存后错误</th></tr></thead><tbody></tbody></table>
+<script>
+const OUT = 'out/';
+let results = [];
+
+async function tryLoad(buf) {
+  try {
+    const face = new FontFace('probe_' + Math.random().toString(36).slice(2), buf, { display: 'block' });
+    await face.load();
+    return { ok: true, msg: '' };
+  } catch (e) {
+    return { ok: false, msg: (e && e.message) || String(e) };
+  }
+}
+
+(async () => {
+  const bar = document.getElementById('bar');
+  const tbody = document.querySelector('#tbl tbody');
+  const man = await (await fetch(OUT + 'manifest.json')).json();
+  let i = 0;
+  for (const m of man) {
+    i++;
+    bar.textContent = '进度 ' + i + ' / ' + man.length + '：' + m.name;
+    const origBuf = await (await fetch(OUT + m.orig)).arrayBuffer();
+    const orig = await tryLoad(origBuf);
+    let saved = { ok: null, msg: '' };
+    if (m.saved) {
+      const savedBuf = await (await fetch(OUT + m.saved)).arrayBuffer();
+      saved = await tryLoad(savedBuf);
+    } else {
+      saved = { ok: false, msg: '保存失败: ' + m.saveError };
+    }
+    const r = {
+      name: m.name, flavor: m.flavorText, numGlyphs: m.numGlyphs, tables: m.tables,
+      origOK: orig.ok, savedOK: saved.ok,
+      origErr: orig.msg, savedErr: saved.msg
+    };
+    results.push(r);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + m.name + '</td><td>' + m.flavorText + '</td>' +
+      '<td class="' + (orig.ok ? 'ok' : 'bad') + '">' + (orig.ok ? '通过' : '失败') + '</td>' +
+      '<td class="' + (saved.ok ? 'ok' : 'bad') + '">' + (saved.ok ? '通过' : '失败') + '</td>' +
+      '<td class="bad">' + orig.msg + '</td><td class="bad">' + saved.msg + '</td>';
+    tbody.appendChild(tr);
+  }
+  const bad = results.filter((r) => !r.savedOK);
+  bar.textContent = '完成：' + results.length + ' 项，重新保存后校验失败 ' + bad.length + ' 项' +
+    (bad.filter((b) => !b.origOK).length ? '（其中原始字体本身也失败 ' + bad.filter((b) => !b.origOK).length + ' 项）' : '');
+  window.OTS_RESULT = { total: results.length, failedSaved: bad };
+  window.OTS_DONE = true;
+})();
+</script>
+</body>
+</html>

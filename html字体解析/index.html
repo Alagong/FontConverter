@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" id="metaTheme" content="#070b16">
+<title>FontLab · 字体表解析与编辑工具</title>
+<script>
+  /* 在样式表之前确定主题，避免首屏闪一下再切换 */
+  (function () {
+    try {
+      var saved = localStorage.getItem('fontlab-theme');
+      var t = saved === 'light' || saved === 'dark'
+        ? saved
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233f7bff'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' text-anchor='middle' fill='white'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css?v=20260914y">
+</head>
+<body class="view-tables">
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">F</span>
+    <div>
+      <div class="brand-title">FontLab</div>
+      <div class="brand-sub">字体表解析 · 数据说明 · 编辑与重存<span id="buildTag" class="build-tag"></span></div>
+    </div>
+  </div>
+  <div class="file-info" id="fileInfo"><span class="muted">未打开字体</span></div>
+  <div class="actions">
+    <input type="file" id="fileInput" accept=".ttf,.otf,.ttc,.woff,.otc,.ttf,.TTF,.OTF" hidden>
+    <button class="btn" id="btnTheme" title="切换亮色 / 暗色主题（快捷键 T）" aria-label="切换主题">
+      <svg class="bi" id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+      <span id="themeText">暗色</span>
+    </button>
+    <button class="btn" id="btnOpen"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>打开字体</button>
+    <button class="btn" id="btnPreview"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6M9 19V11M14 19V8M19 19v-6"/></svg>字体预览</button>
+    <button class="btn primary" id="btnSave" title="Ctrl+S"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>保存为字体</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-view="tables" class="active">表结构</button>
+  <button data-view="preview">字体预览</button>
+  <button data-view="glyphs">字形总览</button>
+  <button data-view="changes">修改与导出</button>
+</nav>
+
+<main>
+  <aside id="sidebar"></aside>
+  <section id="content"></section>
+</main>
+
+<div id="dropzone"><div class="dz-inner">释放以打开字体文件<br><span class="muted">支持 .ttf / .otf / .ttc / .woff</span></div></div>
+<div id="toasts"></div>
+
+<script src="js/util.js?v=20260914y"></script>
+<script src="js/binary.js?v=20260914y"></script>
+<script src="js/sfnt.js?v=20260914y"></script>
+<script src="js/tables/common.js?v=20260914y"></script>
+<script src="js/tables/basic.js?v=20260914y"></script>
+<script src="js/tables/os2.js?v=20260914y"></script>
+<script src="js/tables/name.js?v=20260914y"></script>
+<script src="js/tables/cmap.js?v=20260914y"></script>
+<script src="js/glyf.js?v=20260914y"></script>
+<script src="js/gvar.js?v=20260914y"></script>
+<script src="js/tables/kern.js?v=20260914y"></script>
+<script src="js/tables/layout.js?v=20260914y"></script>
+<script src="js/tables/cff.js?v=20260914y"></script>
+<script src="js/tables/misc.js?v=20260914y"></script>
+<script src="js/font.js?v=20260914y"></script>
+<script src="js/app.js?v=20260914y"></script>
+</body>
+</html>
